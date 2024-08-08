@@ -21,6 +21,10 @@
 #define ERADICATE2_SPEEDSAMPLES 20
 #define ERADICATE2_MAX_SCORE 40
 
+
+extern unsigned int g_minScore;
+
+
 class Dispatcher {
 	private:
 		class OpenCLException : public std::runtime_error {
@@ -60,7 +64,7 @@ class Dispatcher {
 		~Dispatcher();
 
 		void addDevice(cl_device_id clDeviceId, const size_t worksizeLocal, const size_t index);
-		void run(const mode & mode);
+		void run(const mode & mode, const size_t minScore);
 
 	private:
 		void deviceDispatch(Device & d);

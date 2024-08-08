@@ -11,6 +11,9 @@
 #include <algorithm>
 #include "hexadecimal.hpp"
 
+// Global
+unsigned int g_minScore = 0;
+
 static void printResult(const result r, const cl_uchar score, const std::chrono::time_point<std::chrono::steady_clock> & timeStart) {
 	// Time delta
 	const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - timeStart).count();
@@ -91,7 +94,8 @@ void Dispatcher::addDevice(cl_device_id clDeviceId, const size_t worksizeLocal, 
 	m_vDevices.push_back(pDevice);
 }
 
-void Dispatcher::run(const mode & mode) {
+void Dispatcher::run(const mode & mode, const size_t minScore) {
+	g_minScore = minScore;
 	m_eventFinished = clCreateUserEvent(m_clContext, NULL);
 	timeStart = std::chrono::steady_clock::now();
 
@@ -165,7 +169,7 @@ void Dispatcher::enqueueKernelDevice(Device & d, cl_kernel & clKernel, size_t wo
 
 void Dispatcher::deviceDispatch(Device & d) {
 	// Check result
-	for (auto i = ERADICATE2_MAX_SCORE; i > m_clScoreMax; --i) {
+	for (auto i = ERADICATE2_MAX_SCORE; i > g_minScore && i >= m_clScoreMax; --i) {
 		result & r = d.m_memResult[i];
 
 		if (r.found > 0 && i >= d.m_clScoreMax) {

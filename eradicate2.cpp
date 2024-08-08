@@ -207,6 +207,7 @@ int main(int argc, char * * argv) {
 		bool bModeDoubles = false;
 		int rangeMin = 0;
 		int rangeMax = 0;
+		int minScore = 0;
 		std::vector<size_t> vDeviceSkipIndex;
 		size_t worksizeLocal = 128;
 		size_t worksizeMax = 0; // Will be automatically determined later if not overriden by user
@@ -230,6 +231,7 @@ int main(int argc, char * * argv) {
 		argp.addSwitch('8', "mirror", bModeMirror);
 		argp.addSwitch('9', "leading-doubles", bModeDoubles);
 		argp.addSwitch('t', "trailing", strModeTrailing);
+		argp.addSwitch('s', "min-score", minScore);
 		argp.addSwitch('m', "min", rangeMin);
 		argp.addSwitch('M', "max", rangeMax);
 		argp.addMultiSwitch('s', "skip", vDeviceSkipIndex);
@@ -392,7 +394,7 @@ int main(int argc, char * * argv) {
 			d.addDevice(i, worksizeLocal, mDeviceIndex[i]);
 		}
 
-		d.run(mode);
+		d.run(mode, minScore);
 		clReleaseContext(clContext);
 		return 0;
 	} catch (std::runtime_error & e) {
