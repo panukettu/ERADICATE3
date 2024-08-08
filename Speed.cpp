@@ -72,14 +72,15 @@ void Speed::updateList(const unsigned int & numPoints, const long long & ns, sam
 
 void Speed::print() const {
 	double totalSpeed = 0.0;
-	std::ostringstream oss;
+	// std::ostringstream oss;
 	// std::map is sorted by key so we'll always have the devices in numerical order
 	for (auto it = m_mDeviceSamples.begin(); it != m_mDeviceSamples.end(); ++it) {
 		const double speed = this->getSpeed(it->second);
 		totalSpeed += speed;
-		oss << " GPU" << it->first << ": " << formatSpeed(speed);
+		// oss << " GPU" << it->first << ": " << formatSpeed(speed);
 	}
 
 	const std::string strVT100ClearLine = "\33[2K\r";
-	std::cout << strVT100ClearLine << "Speed: " << formatSpeed(totalSpeed) << oss.str() << "\r" << std::flush;
+	std::cout << strVT100ClearLine << "Speed: " << formatSpeed(totalSpeed) << "\r" << std::flush;
+	// std::cout << strVT100ClearLine << "Speed: " << formatSpeed(totalSpeed) << oss<< "\r" << std::flush;
 }
