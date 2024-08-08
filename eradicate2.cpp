@@ -213,7 +213,7 @@ int main(int argc, char * * argv) {
 		size_t size = 16777216;
 		std::string strAddress;
 		std::string bytecode_hash = "21c35dbe1b344a2488cf3321d6ce542f8e9f305544ff09e4993a62319a497c1f";
-		std::string nft_address = "1ADD4E55ecEffd795B01d22203D280c93A2F1dc3";
+		std::string nft_address = "00000000000029398fcE86f09FF8453c8D0Cd60D";
 		std::string strInitCode;
 		std::string strInitCodeFile;
 
