@@ -205,6 +205,7 @@ int main(int argc, char * * argv) {
 		bool bModeRange = false;
 		bool bModeMirror = false;
 		bool bModeDoubles = false;
+		bool allLeading = false;
 		int scoreAll = 0;
 		int rangeMin = 0;
 		int rangeMax = 0;
@@ -233,6 +234,7 @@ int main(int argc, char * * argv) {
 		argp.addSwitch('9', "leading-doubles", bModeDoubles);
 		argp.addSwitch('t', "trailing", strModeTrailing);
 		argp.addSwitch('a', "all", scoreAll);
+		argp.addSwitch('l', "all-leading", allLeading);
 		argp.addSwitch('m', "min", rangeMin);
 		argp.addSwitch('M', "max", rangeMax);
 		argp.addMultiSwitch('s', "skip", vDeviceSkipIndex);
@@ -299,6 +301,8 @@ int main(int argc, char * * argv) {
 			mode = ModeFactory::doubles();
 		}	else if (scoreAll > 0) {
 			mode = ModeFactory::all(scoreAll);
+		} else if (allLeading) {
+			mode = ModeFactory::allLeading();
 		} else {
 			std::cout << g_strHelp << std::endl;
 			return 0;

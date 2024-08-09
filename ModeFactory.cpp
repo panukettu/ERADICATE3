@@ -25,6 +25,11 @@ mode ModeFactory::all(int scoreAll) {
 	r.data1[0] = scoreAll;
 	return r;
 }
+mode ModeFactory::allLeading() {
+	mode r;
+	r.function = ModeFunction::AllLeading;
+	return r;
+}
 
 mode ModeFactory::matching(const std::string strHex) {
 	mode r;

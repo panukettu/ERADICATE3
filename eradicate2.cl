@@ -1,5 +1,5 @@
 enum ModeFunction {
-	Benchmark, ZeroBytes, Matching, Leading, Range, Mirror, Doubles, LeadingRange, Trailing, All
+	Benchmark, ZeroBytes, Matching, Leading, Range, Mirror, Doubles, LeadingRange, Trailing, All, AllLeading
 };
 
 typedef struct {
@@ -26,6 +26,7 @@ void eradicate2_score_leadingrange(const uchar * const hash, __global result * c
 void eradicate2_score_mirror(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round);
 void eradicate2_score_doubles(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round);
 void eradicate2_score_all(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round);
+void eradicate2_score_all_leading(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round);
 
 __kernel void eradicate2_iterate(__global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round) {
 	ethhash h = { .q = { ERADICATE2_INITHASH } };
@@ -94,7 +95,10 @@ __kernel void eradicate2_iterate(__global result * const pResult, __global const
 	case LeadingRange:
 		eradicate2_score_leadingrange(h.b + 12, pResult, pMode, scoreMax, deviceIndex, round);
 		break;
-		case All:
+	case AllLeading:
+		eradicate2_score_all_leading(h.b + 12, pResult, pMode, scoreMax, deviceIndex, round);
+		break;
+	case All:
 		eradicate2_score_all(h.b + 12, pResult, pMode, scoreMax, deviceIndex, round);
 		break;
 	}
@@ -143,6 +147,20 @@ void eradicate2_score_leading(const uchar * const hash, __global result * const 
 		}
 	}
 
+	eradicate2_result_update(hash, pResult, score, scoreMax, deviceIndex, round);
+}
+
+void eradicate2_score_all_leading(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round) {
+	int score = 0;
+	uchar ch = hash[0] >> 4;
+	for (int i = 1; i < 40; ++i) {
+		uchar nibble = (i & 1) ? (hash[i>>1] & 0x0f) : (hash[i>>1] >> 4);
+		if (nibble == ch) {
+			++score;
+		} else {
+			break;
+		}
+	}
 	eradicate2_result_update(hash, pResult, score, scoreMax, deviceIndex, round);
 }
 void eradicate2_score_all(const uchar * const hash, __global result * const pResult, __global const mode * const pMode, const uchar scoreMax, const uint deviceIndex, const uint round) {

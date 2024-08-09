@@ -18,6 +18,7 @@ class ModeFactory {
 		static mode leadingRange(const cl_uchar min, const cl_uchar max);
 		static mode mirror();
 		static mode all(int scoreAll);
+		static mode allLeading();
 
 		static mode benchmark();
 		static mode zerobytes();
