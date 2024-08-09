@@ -205,6 +205,7 @@ int main(int argc, char * * argv) {
 		bool bModeRange = false;
 		bool bModeMirror = false;
 		bool bModeDoubles = false;
+		int scoreAll = 0;
 		int rangeMin = 0;
 		int rangeMax = 0;
 		int minScore = 0;
@@ -231,7 +232,7 @@ int main(int argc, char * * argv) {
 		argp.addSwitch('8', "mirror", bModeMirror);
 		argp.addSwitch('9', "leading-doubles", bModeDoubles);
 		argp.addSwitch('t', "trailing", strModeTrailing);
-		argp.addSwitch('s', "min-score", minScore);
+		argp.addSwitch('a', "all", scoreAll);
 		argp.addSwitch('m', "min", rangeMin);
 		argp.addSwitch('M', "max", rangeMax);
 		argp.addMultiSwitch('s', "skip", vDeviceSkipIndex);
@@ -296,6 +297,8 @@ int main(int argc, char * * argv) {
 			mode = ModeFactory::mirror();
 		} else if (bModeDoubles) {
 			mode = ModeFactory::doubles();
+		}	else if (scoreAll > 0) {
+			mode = ModeFactory::all(scoreAll);
 		} else {
 			std::cout << g_strHelp << std::endl;
 			return 0;

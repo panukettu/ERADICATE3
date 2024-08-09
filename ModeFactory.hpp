@@ -17,6 +17,7 @@ class ModeFactory {
 		static mode trailing(const std::string strHex);
 		static mode leadingRange(const cl_uchar min, const cl_uchar max);
 		static mode mirror();
+		static mode all(int scoreAll);
 
 		static mode benchmark();
 		static mode zerobytes();
