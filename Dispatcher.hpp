@@ -23,6 +23,7 @@
 
 
 extern unsigned int g_minScore;
+extern std::string lastSalt;
 
 
 class Dispatcher {

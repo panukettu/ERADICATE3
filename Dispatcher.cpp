@@ -169,7 +169,7 @@ void Dispatcher::enqueueKernelDevice(Device & d, cl_kernel & clKernel, size_t wo
 
 void Dispatcher::deviceDispatch(Device & d) {
 	// Check result
-	for (auto i = ERADICATE2_MAX_SCORE; i > g_minScore && i >= m_clScoreMax; --i) {
+	for (auto i = ERADICATE2_MAX_SCORE; i > m_clScoreMax; --i) {
 		result & r = d.m_memResult[i];
 
 		if (r.found > 0 && i >= d.m_clScoreMax) {
@@ -181,7 +181,6 @@ void Dispatcher::deviceDispatch(Device & d) {
 				m_clScoreMax = i;
 
 				// TODO: Add quit condition
-
 				printResult(r, i, timeStart);
 			}
 
