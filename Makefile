@@ -3,8 +3,9 @@ CDEFINES=
 SOURCES=Dispatcher.cpp eradicate2.cpp hexadecimal.cpp ModeFactory.cpp Speed.cpp sha3.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=ERADICATE2.x64
-VCPKG_TRIPLET=x64-osx # or x64-linux, x64-windows, etc.
 UNAME_S := $(shell uname -s)
+ARCHOS := $(shell uname -sm | perl -pe 's/(.*?)\s(x)?(?:86_)?(.*?)$$/$$2$$3-\L$$1/; s/darwin/osx/;')
+CXXFLAGS=-"I$(cwd)/vcpkg_installed/$(ARCHOS)/include"
 
 
 ifeq ($(UNAME_S),Darwin)
@@ -20,7 +21,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 
 .cpp.o:
-	$(CC) $(CFLAGS) $(CDEFINES) $< -o $@
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(CDEFINES) $< -o $@
 
 clean:
 	rm -rf *.o

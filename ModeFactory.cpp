@@ -92,31 +92,10 @@ mode ModeFactory::matching(const string strHex) {
   return r;
 }
 
-mode ModeFactory::trailing(const string strHex) {
+mode ModeFactory::trailing(const char charLeading) {
   mode r;
-  r.function = ModeFunction::Matching;
-
-  fill(r.data1, r.data1 + sizeof(r.data1), cl_uchar(0));
-  fill(r.data2, r.data2 + sizeof(r.data2), cl_uchar(0));
-
-  auto index = 0;
-
-  for (size_t i = 0; i < strHex.size(); i += 2) {
-    const auto indexHi = hexValueNoException(strHex[i]);
-    const auto indexLo = i + 1 < strHex.size() ? hexValueNoException(strHex[i + 1]) : string::npos;
-
-    const auto valHi = (indexHi == string::npos) ? 0 : indexHi << 4;
-    const auto valLo = (indexLo == string::npos) ? 0 : indexLo;
-
-    const auto maskHi = (indexHi == string::npos) ? 0 : 0xF << 4;
-    const auto maskLo = (indexLo == string::npos) ? 0 : 0xF;
-
-    r.data1[20 - strHex.size() / 2 + index] = maskHi | maskLo;
-    r.data2[20 - strHex.size() / 2 + index] = valHi | valLo;
-
-    ++index;
-  }
-
+  r.function = ModeFunction::Trailing;
+  r.data1[0] = static_cast<cl_uchar>(hexValue(charLeading));
   return r;
 }
 

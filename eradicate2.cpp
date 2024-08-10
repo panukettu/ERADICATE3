@@ -303,7 +303,7 @@ int main(int argc, char** argv) {
       if (scoreMin == 0) scoreMin = 2;
       mode = ModeFactory::leading(strModeLeading.front());
     } else if (!strModeTrailing.empty()) {
-      mode = ModeFactory::trailing(strModeTrailing);
+      mode = ModeFactory::trailing(strModeTrailing.back());
     } else if (!strModeLeadingMatch.empty()) {
       if (scoreMin == 0) scoreMin = 2;
       mode = ModeFactory::matchLeading(strModeLeadingMatch);

@@ -9,7 +9,7 @@
 #else
 #include <CL/cl.h>
 #endif
-
+#include <chrono>
 using namespace std;
 
 enum class ModeFunction {

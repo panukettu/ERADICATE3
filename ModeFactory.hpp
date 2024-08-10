@@ -15,7 +15,7 @@ class ModeFactory {
   static mode matching(const string strHex);
   static mode range(const cl_uchar min, const cl_uchar max);
   static mode leading(const char charLeading);
-  static mode trailing(const string strHex);
+  static mode trailing(const char charTrailing);
   static mode leadingRange(const cl_uchar min, const cl_uchar max);
   static mode mirror();
   static mode all(int scoreMin);
