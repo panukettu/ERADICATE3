@@ -57,7 +57,7 @@ class ArgParser {
 		}
 
 		template <typename T>
-		void addSwitch(const char switchShort, const std::string switchLong, T & t) {
+		void addSwitch(const std::string& switchShort,const std::string switchLong, T & t) {
 			const std::string strShort = std::string("-") + switchShort;
 			const std::string strLong = std::string("--") + switchLong;
 

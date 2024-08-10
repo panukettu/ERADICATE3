@@ -1,3 +1,4 @@
 *.o
 .vscode
 ERADICATE2.x64
+vcpkg_installed*

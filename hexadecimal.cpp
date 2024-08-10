@@ -1,54 +1,62 @@
 #include "hexadecimal.hpp"
+
 #include <stdexcept>
 
-std::string toHex(const uint8_t * const s, const size_t len) {
-	std::string b("0123456789abcdef");
-	std::string r;
+std::string toHex(const uint8_t *const s, const size_t len) {
+  std::string b("0123456789abcdef");
+  std::string r;
 
-	for (size_t i = 0; i < len; ++i) {
-		const unsigned char h = s[i] / 16;
-		const unsigned char l = s[i] % 16;
+  for (size_t i = 0; i < len; ++i) {
+    const unsigned char h = s[i] / 16;
+    const unsigned char l = s[i] % 16;
 
-		r = r + b.substr(h, 1) + b.substr(l, 1);
-	}
+    r = r + b.substr(h, 1) + b.substr(l, 1);
+  }
 
-	return r;
+  return r;
 }
 
 std::string::size_type hexValueNoException(char c) {
-	if (c >= 'A' && c <= 'F') {
-		c -= 'A' - 'a';
-	}
+  if (c >= 'A' && c <= 'F') {
+    c -= 'A' - 'a';
+  }
 
-	const std::string hex = "0123456789abcdef";
-	const std::string::size_type ret = hex.find(c);
-	return ret;
+  const std::string hex = "0123456789abcdef";
+  const std::string::size_type ret = hex.find(c);
+  return ret;
 }
 
 std::string::size_type hexValue(char c) {
-	const std::string::size_type ret = hexValueNoException(c);
-	if (ret == std::string::npos) {
-		throw std::runtime_error("bad hex value");
-	}
+  const std::string::size_type ret = hexValueNoException(c);
+  if (ret == std::string::npos) {
+    throw std::runtime_error("bad hex value");
+  }
 
-	return ret;
+  return ret;
 }
 
 std::string parseHexadecimalBytes(std::string o) {
-	std::string strRet;
+  std::string strRet;
 
-	if (o.size() >= 2 && o.substr(0, 2) == "0x") {
-		o.erase(0, 2);
-	}
+  if (o.size() >= 2 && o.substr(0, 2) == "0x") {
+    o.erase(0, 2);
+  }
 
-	if (o.size() % 2 != 0) {
-		throw std::runtime_error("malformatted hexadecimal data");
-	}
+  if (o.size() % 2 != 0) {
+    throw std::runtime_error("malformatted hexadecimal data");
+  }
 
-	for (size_t i = 0; i < o.size(); i += 2) {
-		const auto val = hexValue(o[i]) * 16 + hexValue(o[i + 1]);
-		strRet += val;
-	}
+  for (size_t i = 0; i < o.size(); i += 2) {
+    const auto val = hexValue(o[i]) * 16 + hexValue(o[i + 1]);
+    strRet += val;
+  }
 
-	return strRet;
+  return strRet;
+}
+
+// Function to convert hash to uint64_t
+uint64_t hexToUint(const unsigned char *hash) {
+  uint64_t num = 0;
+  std::memcpy(&num, hash, sizeof(uint64_t));
+  return num;
 }
